@@ -73,3 +73,18 @@ void Entity::operator+=(Entity *other)
 {
   this->addDamage((*other).getDamage());
 }
+
+bool Entity::operator<(const Entity &other)
+{
+  // A legnagyobb szintű nyer
+  if (this->level < other.level)
+  {
+    return true;
+  }
+  // Azonos szintűek esetén az erősebb nyer
+  else if (this->level == other.level && this->damage < other.damage)
+  {
+    return true;
+  }
+  return false;
+}

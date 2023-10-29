@@ -20,6 +20,8 @@ int main(int argc, const char **argv)
   slot += new Entity("a", 28);
   slot += new Entity("b", 43);
   slot += new Entity("c", 39);
+  slot += new Entity("d", 16);
+  slot += new Entity("e", 27);
 
   slot.fight();
 

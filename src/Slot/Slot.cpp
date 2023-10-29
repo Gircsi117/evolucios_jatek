@@ -23,20 +23,13 @@ void Slot::fight()
   // Legerősebb entitás kiválasztása
   Entity *strongest = this->entities[0];
 
-  for (unsigned i = 0; i < this->entities.size(); i++)
+  for (unsigned i = 1; i < this->entities.size(); i++)
   {
-    // A nagyobb szintű nyer
-    if (this->entities[i]->getLevel() > strongest->getLevel())
+    // A legerősebb kiválasztása
+    if (*strongest < *this->entities[i])
     {
       strongest = this->entities[i];
     }
-    // Egyenlő szint esetén az erősebb
-    else if (this->entities[i]->getLevel() == strongest->getLevel() &&
-             this->entities[i]->getDamage() > strongest->getDamage())
-    {
-      strongest = this->entities[i];
-    }
-    // Egyforma erősségű és szintű entitások esetén aki előbb van az nyer.
   }
 
   // A nyertes entitás erősítése, a többi entitás eltávolítása

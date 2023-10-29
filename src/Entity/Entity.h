@@ -35,6 +35,8 @@ public:
   void levelUp();
 
   void operator+=(Entity *other);
+
+  bool operator<(const Entity &other);
 };
 
 #endif
