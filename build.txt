@@ -1,0 +1,1 @@
+g++ -o build/app -Wall main.cpp src/Entity/Entity.cpp src/Random/Random.cpp src/Slot/Slot.cpp
