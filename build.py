@@ -1,10 +1,12 @@
 import subprocess
 import os
 
+# Parancs lemetése a txt-be
 def saveComamnd(command):
   with open("build.txt", "w") as f:
     f.write(" ".join(command))
 
+# cpp fájlok megkeresése
 def getFiles(folder):
   a = []
   for root, subFolder, files in os.walk(folder):
@@ -13,6 +15,7 @@ def getFiles(folder):
       a.append(fullRoot.replace("\\", "/"))
   return a
 
+# Fájlok alapján a g++ command elkészítése és futtatása
 def generateCommand(files):
   command = ["g++", "-o", "build/app", "-Wall", "main.cpp"]
 
