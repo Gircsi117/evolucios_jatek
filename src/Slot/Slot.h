@@ -1,3 +1,6 @@
+#ifndef SLOT_H
+#define SLOT_H
+
 #include <iostream>
 #include <string>
 #include <vector>
@@ -22,3 +25,5 @@ public:
 
   void operator+=(Entity *other);
 };
+
+#endif // !SLOT_H

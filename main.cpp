@@ -7,6 +7,7 @@
 #include "./src/Random/Random.h"
 #include "./src/Entity/Entity.h"
 #include "./src/Slot/Slot.h"
+#include "./src/Board/Board.h"
 
 using namespace std;
 
@@ -24,6 +25,8 @@ int main(int argc, const char **argv)
   slot += new Entity("e", 27);
 
   slot.fight();
+
+  Board board = Board();
 
   return 0;
 }
