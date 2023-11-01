@@ -1,2 +1,4 @@
 build/app.exe
+build/history.txt
+./history.txt
 ./.vscode/settings.json

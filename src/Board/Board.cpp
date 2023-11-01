@@ -231,7 +231,8 @@ void Board::drawHorisontalSeparator()
 // Megrajzolja a táblát
 void Board::drawTable()
 {
-  system("clear");
+  system("clear 2> nul");
+  system("cls 2> nul");
   unsigned index = 0;
 
   cout << "--------------------------------------------------" << endl
