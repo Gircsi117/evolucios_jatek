@@ -1,1 +1,1 @@
-g++ -o build/app -Wall main.cpp src/Board/Board.cpp src/Entity/Entity.cpp src/Random/Random.cpp src/Slot/Slot.cpp
+g++ -o build/app -Wall main.cpp src/Board/Board.cpp src/Entity/Entity.cpp src/History/History.cpp src/Random/Random.cpp src/Slot/Slot.cpp

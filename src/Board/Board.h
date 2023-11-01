@@ -7,19 +7,40 @@
 
 #include "../Random/Random.h"
 #include "../Slot/Slot.h"
+#include "../Direction/Direction.h"
 
 class Board
 {
 private:
   unsigned columns;
   unsigned rows;
-  vector<Slot *> slots;
   unsigned round;
+  vector<Slot *> slots;
+
+  void drawHorisontalSeparator();
 
 public:
   Board();
-  Board(const unsigned $columns, const unsigned $rows);
+  Board(const int $columns, const int $rows);
   ~Board();
+
+  const unsigned &getRound();
+
+  void generateSlots();
+  vector<Slot *> getEmptySlots();
+
+  void generateEntities(unsigned $entityCount);
+
+  void getStats();
+  void getStats(const string &id);
+
+  void drawTable();
+
+  void move(Slot *from, Slot *to);
+
+  void moveEntities();
+  void fightEntities();
+  void levelUpEntities();
 
   void operator+=(Slot *other);
 };

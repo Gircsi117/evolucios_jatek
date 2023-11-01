@@ -17,6 +17,7 @@ private:
   unsigned damage;
   unsigned limit;
   unsigned level;
+  unsigned roundMove;
   Direction lastMove;
 
 public:
@@ -26,6 +27,12 @@ public:
   ~Entity();
 
   string getName();
+
+  void getStats();
+
+  unsigned getRoundMove();
+
+  void setRoundMove(const unsigned &roundMove);
 
   unsigned getDamage();
   void addDamage(unsigned damage);
