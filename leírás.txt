@@ -22,3 +22,6 @@ A szintlépést követően a karakter sebzése visszaáll egy véletlen 25-50 é
 
 A játék során végbement eseményeket a játék a history.txt-be lementi.
 A history.txt tartalma minden játék indítás alkalmával törlődik.
+
+A fejlesztés menete és a forráskód a következő git repon található:
+https://github.com/Gircsi117/evolucios_jatek
