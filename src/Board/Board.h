@@ -21,22 +21,23 @@ private:
 
 public:
   Board();
-  Board(const int $columns, const int $rows);
+  Board(const int columns, const int rows);
   ~Board();
 
   const unsigned &getRound();
 
   void generateSlots();
   vector<Slot *> getEmptySlots();
+  bool isHaveWinner();
 
-  void generateEntities(unsigned $entityCount);
+  void generateEntities(int entityCount);
 
   void getStats();
   void getStats(const string &id);
 
   void drawTable();
 
-  void move(Slot *from, Slot *to);
+  string move(Slot *from, Slot *to);
 
   void moveEntities();
   void fightEntities();

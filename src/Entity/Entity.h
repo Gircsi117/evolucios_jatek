@@ -39,7 +39,7 @@ public:
 
   unsigned getLevel();
 
-  void levelUp();
+  string levelUp();
 
   void operator+=(Entity *other);
 

@@ -82,15 +82,17 @@ unsigned Entity::getLevel()
   return this->level;
 }
 
-void Entity::levelUp()
+string Entity::levelUp()
 {
+  string history = "";
   // Szintlépés ha elérte a limit damage-t
   if (this->damage >= this->limit)
   {
     this->level++;
     this->damage = Random::randomInt(25, 50);
-    History::writeHistory(this->getName() + " a(z) " + to_string(this->level) + ". szintre lépett!");
+    history = (this->getName() + " a(z) " + to_string(this->level) + ". szintre lépett!\n");
   }
+  return history;
 }
 
 void Entity::operator+=(Entity *other)

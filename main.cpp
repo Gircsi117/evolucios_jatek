@@ -48,46 +48,58 @@ int main(int argc, const char **argv)
 {
   Random::resetRand();
   History::clearHistory();
-  string input = "";
+  bool autoRun = false;
 
   Board board = Board(8, 8);
-  board.generateEntities(64);
+  board.generateEntities(45);
   board.drawTable();
 
   do
   {
     try
     {
+      string input = "";
       cout << endl
            << "-----------------------------------------------" << endl
            << endl;
 
-      cout << "Korok szama: " << to_string(board.getRound() + 1) << endl
+      cout << "Korok szama: " << to_string(board.getRound()) << endl
            << endl;
       cout << "Muveletek:" << endl;
       cout << "  - [Enter] - Kovetkezo kor" << endl;
+      cout << "  - auto / a - automatikus futtatas (kizarolag sajat felelossegre)" << endl;
       cout << "  - clear / c - Terminal 'tisztitasa'" << endl;
       cout << "  - stat / s - Entitas(ok) megtekintese" << endl;
       cout << "  - exit / q - Kilepes" << endl;
       cout << "Muvelet: ";
 
-      getline(cin, input);
+      if (!autoRun)
+      {
+        getline(cin, input);
+      }
 
-      if (input == "")
+      if (input == "" || autoRun)
       {
         History::writeHistory("\n" + to_string(board.getRound() + 1) + ". kör!");
         History::writeHistory("---------------------------------------------------\n");
 
-        History::writeHistory("Mozgások:");
         board.moveEntities();
-
-        History::writeHistory("\nHarcok:");
         board.fightEntities();
-
-        History::writeHistory("\nSzintlépések:");
         board.levelUpEntities();
 
         board.drawTable();
+
+        if (board.isHaveWinner())
+        {
+          cout << "\nGratulalok, nyertel:" << endl;
+          board.getStats();
+          break;
+        }
+      }
+      else if (input == "auto" || input == "a")
+      {
+        autoRun = true;
+        continue;
       }
       else if (input == "stat" || input == "s")
       {
@@ -110,7 +122,6 @@ int main(int argc, const char **argv)
     {
       cout << e.what() << endl;
     }
-
   } while (true);
 
   return 0;

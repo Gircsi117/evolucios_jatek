@@ -15,27 +15,33 @@ Slot::Slot(string $id, vector<Direction> $directions)
 
 Slot::~Slot() {}
 
+// Visszaadja a mező azonosítóját
 const string &Slot::getId()
 {
   return this->id;
 }
 
+// Visszaadja a mezo első elemét
 Entity *Slot::getFirstEntity()
 {
   return this->entities[0];
 }
 
+// Eltávolítja az első elemet
 void Slot::deleteFirstEntity()
 {
   this->entities.erase(this->entities.begin());
 }
 
-void Slot::fight()
+// Az adott mezőn lévő elemek harcolnak
+string Slot::fight()
 {
+  string text = "";
+
   // Ha nincs legalább 2 entitás, nem lehet harcolni
   if (this->entityCount() < 2)
   {
-    return;
+    return text;
   }
 
   // Legerősebb entitás kiválasztása
@@ -50,7 +56,7 @@ void Slot::fight()
     }
   }
 
-  string text = strongest->getName() + " legyozte oket a(z) " + this->id + " mezon: ";
+  text = strongest->getName() + " legyozte oket a(z) " + this->id + " mezon:\n";
 
   // A nyertes entitás erősítése, a többi entitás eltávolítása
   auto it = this->entities.begin();
@@ -58,7 +64,7 @@ void Slot::fight()
   {
     if (*it != strongest)
     {
-      text += "\n\t" + (*it)->getName() + "; ";
+      text += "\t" + (*it)->getName() + ";\n";
       *strongest += *it;
       delete *it;
       it = this->entities.erase(it);
@@ -68,19 +74,22 @@ void Slot::fight()
       ++it;
     }
   }
-  History::writeHistory(text);
+  return text;
 }
 
+// Visszaadja a mező elemeinek a számát
 unsigned Slot::entityCount()
 {
   return this->entities.size();
 }
 
+// Visszaad egy lehetséges random irányt
 const Direction &Slot::getRandomDirection()
 {
   return this->directions[Random::randomInt(0, this->directions.size() - 1)];
 }
 
+// Hozzáad egy entitást
 void Slot::addEntity(Entity *other)
 {
   this->entities.push_back(other);

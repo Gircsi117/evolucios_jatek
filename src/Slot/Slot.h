@@ -28,7 +28,7 @@ public:
 
   void deleteFirstEntity();
 
-  void fight();
+  string fight();
 
   unsigned entityCount();
 

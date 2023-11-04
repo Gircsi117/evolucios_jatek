@@ -1,5 +1,6 @@
-#define MAX_BOARD_SIZE = 20
+#define MAX_BOARD_SIZE 9
 #define LETTERS "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+#define CLEAR_SCREEN
 
 #include <iostream>
 #include <string>
@@ -37,9 +38,9 @@ Board::Board()
       col = stoi(a);
       row = stoi(b);
 
-      if (col <= 0 || row <= 0)
+      if (col <= 1 || row <= 1 || col > MAX_BOARD_SIZE || row > MAX_BOARD_SIZE)
       {
-        throw invalid_argument("Nem adhatsz meg 0 vagy a negativ szamokat!");
+        throw invalid_argument("A megadott szam nincs benne a megadott intervallumban!");
       }
       else
       {
@@ -60,26 +61,38 @@ Board::Board()
   this->generateSlots();
 }
 
-Board::Board(const int $columns, const int $rows)
+Board::Board(const int columns, const int rows)
 {
-  if ($columns <= 0 || $rows <= 0)
+  if (columns <= 0 || rows <= 0)
   {
-    cout << "Nem adhatsz meg 0 vagy a negativ szamokat!" << endl;
-    return;
+    cout << "A megadott ertek nincs benne a megadott intervallumban!" << endl;
+    cout << "A tabla meretei beallitva a legkissebb lehetseges allapotra!" << endl;
+    this->columns = 2;
+    this->rows = 2;
+  }
+  else if (columns > MAX_BOARD_SIZE || rows > MAX_BOARD_SIZE)
+  {
+    cout << "A megadott ertek nincs benne a megadott intervallumban!" << endl;
+    cout << "A tabla meretei beallitva a legnagyobb lehetseges allapotra!" << endl;
+    this->columns = 9;
+    this->rows = 9;
+  }
+  else
+  {
+    this->columns = columns;
+    this->rows = rows;
   }
 
-  this->columns = $columns;
-  this->rows = $rows;
   this->round = 0;
-
   this->generateSlots();
 }
 
 Board::~Board() {}
 
+// Legeneralja a mezőket
 void Board::generateSlots()
 {
-  History::writeHistory(to_string(this->columns) + " x " + to_string(this->rows) + " tábla létrehozva!\n");
+  History::writeHistory(to_string(this->columns) + " x " + to_string(this->rows) + " tabla letrehozva!\n");
 
   for (unsigned i = 0; i < this->rows; i++)
   {
@@ -136,11 +149,13 @@ void Board::generateSlots()
   }
 }
 
+// Visszaadja a jelenlegi kör szamat
 const unsigned &Board::getRound()
 {
   return this->round;
 }
 
+// Visszaadja az összes üres mezőt
 vector<Slot *> Board::getEmptySlots()
 {
   vector<Slot *> emptySlots;
@@ -154,6 +169,16 @@ vector<Slot *> Board::getEmptySlots()
   return emptySlots;
 }
 
+bool Board::isHaveWinner()
+{
+  if (this->getEmptySlots().size() == (this->columns * this->rows - 1))
+  {
+    return true;
+  }
+  return false;
+}
+
+// Az összes entitas adatait kiirja
 void Board::getStats()
 {
   for (unsigned i = 0; i < this->slots.size(); i++)
@@ -167,6 +192,7 @@ void Board::getStats()
   }
 }
 
+// A megadott id-val rendelkező entitas parametereit irja ki
 void Board::getStats(const string &id)
 {
   auto it = find_if(this->slots.begin(), this->slots.end(), [id](Slot *slot)
@@ -193,18 +219,22 @@ void Board::getStats(const string &id)
   }
 }
 
-void Board::generateEntities(unsigned $entityCount)
+void Board::generateEntities(int entityCount)
 {
-  for (unsigned i = 0; i < $entityCount; i++)
+  if (entityCount <= 1)
+  {
+    cout << "Nem adtal meg elegendo jatekost!" << endl;
+    cout << "Az entitasok szama beallitva a legkisebb lehetseges allapotra!" << endl;
+    entityCount = 2;
+  }
+
+  for (int i = 0; i < entityCount; i++)
   {
     vector<Slot *> emptySlots = this->getEmptySlots();
     if (emptySlots.size() == 0)
     {
-      History::writeHistory(to_string(i + 1) + " entitás hozzaadva a játéktérhez!");
+      History::writeHistory(to_string(i + 1) + " entitas hozzaadva a jatekterhez!");
       cout << "Nincs tobb hely a jatekosokhoz!" << endl;
-      cout << "Nyomj entert a folytatashoz!";
-      while (_getch() != '\r')
-        ;
       return;
     }
 
@@ -214,10 +244,10 @@ void Board::generateEntities(unsigned $entityCount)
 
     *emptySlots[index] += new Entity(name);
   }
-  History::writeHistory(to_string($entityCount) + " entitás hozzaadva a játéktérhez!");
+  History::writeHistory(to_string(entityCount) + " entitas hozzaadva a jatekterhez!");
 }
 
-// Megrajzolja a vízszintes tábla elemet
+// Megrajzolja a vizszintes tabla elemet
 void Board::drawHorisontalSeparator()
 {
   cout << "   ";
@@ -228,16 +258,21 @@ void Board::drawHorisontalSeparator()
   cout << "+\n";
 }
 
-// Megrajzolja a táblát
+// Megrajzolja a tablat
 void Board::drawTable()
 {
-  system("clear 2> nul");
-  system("cls 2> nul");
+#ifdef CLEAR_SCREEN
+  if (this->round > 0)
+  {
+    system("clear 2> nul");
+    system("cls 2> nul");
+  }
+#endif // DEBUG
   unsigned index = 0;
 
   cout << "--------------------------------------------------" << endl
        << endl;
-  // Betűk kiírása
+  // Betűk kiirasa
   cout << "     ";
   for (unsigned i = 0; i < this->columns; i++)
   {
@@ -245,7 +280,7 @@ void Board::drawTable()
   }
   cout << endl;
   this->drawHorisontalSeparator();
-  // Entitások kirajzolása
+  // Entitasok kirajzolasa
   for (unsigned i = 0; i < this->rows; i++)
   {
     cout << " " << i + 1 << " |";
@@ -261,24 +296,30 @@ void Board::drawTable()
   }
 }
 
-void Board::move(Slot *from, Slot *to)
+// athelyezi a paraméterül megadott mező első entitasat a megadott mezőre
+string Board::move(Slot *from, Slot *to)
 {
+  string history = "";
   Entity *a = from->getFirstEntity();
 
   if (a->getRoundMove() >= this->round)
   {
-    return;
+    return history;
   }
 
-  History::writeHistory(a->getName() + " : " + from->getId() + " -> " + to->getId());
+  history = (a->getName() + " : " + from->getId() + " -> " + to->getId()) + "\n";
 
   a->setRoundMove(this->round);
   to->addEntity(a);
   from->deleteFirstEntity();
+
+  return history;
 }
 
+// Mozgatja az entitasokat
 void Board::moveEntities()
 {
+  string history = "";
   this->round++;
   for (unsigned i = 0; i < this->slots.size(); i++)
   {
@@ -294,39 +335,61 @@ void Board::moveEntities()
     switch (dir)
     {
     case Direction::UP:
-      this->move(a, this->slots[i - this->columns]);
+      history += this->move(a, this->slots[i - this->columns]);
       break;
     case Direction::DOWN:
-      this->move(a, this->slots[i + this->columns]);
+      history += this->move(a, this->slots[i + this->columns]);
       break;
     case Direction::LEFT:
-      this->move(a, this->slots[i - 1]);
+      history += this->move(a, this->slots[i - 1]);
       break;
     case Direction::RIGHT:
-      this->move(a, this->slots[i + 1]);
+      history += this->move(a, this->slots[i + 1]);
       break;
     default:
       break;
     }
   }
-}
-
-void Board::fightEntities()
-{
-  for (unsigned i = 0; i < this->slots.size(); i++)
+  if (history != "")
   {
-    this->slots[i]->fight();
+    History::writeHistory("Mozgasok:\n" + history);
   }
 }
 
+// Harcoltatja az entitasokat
+void Board::fightEntities()
+{
+  string history = "";
+  for (unsigned i = 0; i < this->slots.size(); i++)
+  {
+    history += this->slots[i]->fight();
+  }
+
+  if (history != "")
+  {
+    History::writeHistory("Harcok:\n" + history);
+  }
+}
+
+// Fejleszti az entitasokat
 void Board::levelUpEntities()
 {
   if (this->round % 10 == 0 && this->round != 0)
   {
+    string history = "";
+
     for (unsigned i = 0; i < this->slots.size(); i++)
     {
-      Entity *a = this->slots[i]->getFirstEntity();
-      a->levelUp();
+      if (this->slots[i]->entityCount() > 0)
+      {
+        Entity *a = this->slots[i]->getFirstEntity();
+        history += a->levelUp();
+      }
+    }
+
+    if (history != "")
+    {
+      History::writeHistory("Szintlepesek:\n" + history);
     }
   }
 }

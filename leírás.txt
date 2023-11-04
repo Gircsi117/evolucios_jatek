@@ -1,0 +1,24 @@
+Gilián Erik - Evolúciós Játék
+---------------------------------------------------------------------
+A futtatható állomány elkészítéséhez a parancs a build.txt fájlban található.
+A futtatható állomány a build mappában kerül elheyzésre.
+
+A játék alapértelmezetten egy 8x8-as táblát generál 45 "játékos" karakterrel.
+A játéktér minimum mérete 2x2, maximális mérete 9x9.
+
+A karakterek 1. szinttel és véletlen 25-50 közötti sebzéssel kezdenek.
+
+A játékciklusokat a felhasználó az [enter] gomb lenyomásával léptetheti.
+
+A játék futtatható kézileg illetve auto módban is.
+A játék addig futtatható, még csak 1 karakter nem marad.
+Az auto mód magától futtatja a köröket addig, amég csak 1 karakter marad.
+Az auto mód minden esetben elmegy a játék végéig, ezt a Ctrl+C gombkombinációval lehet megszakítani.
+
+További parancsok és azok leírása a játéktér alatt találhatóak.
+
+A játék a karakterek szintjét minden 10. kör után növeli abban az esetben, ha a karakter sebzése elérte legalább a limitben meghatározottat (100).
+A szintlépést követően a karakter sebzése visszaáll egy véletlen 25-50 értékre.
+
+A játék során végbement eseményeket a játék a history.txt-be lementi.
+A history.txt tartalma minden játék indítás alkalmával törlődik.
