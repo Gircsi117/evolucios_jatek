@@ -43,21 +43,25 @@ Entity::~Entity()
 {
 }
 
+// Visszaadja a karakter nevét
 string Entity::getName()
 {
   return this->name;
 }
 
+// Visszaadja azt az érteket, hogy a karakter melyik körben lépett utoljára
 unsigned Entity::getRoundMove()
 {
   return this->roundMove;
 }
 
+// Beafrágja utoljára melyik körben lépett a karakter
 void Entity::setRoundMove(const unsigned &roundMove)
 {
   this->roundMove = roundMove;
 }
 
+// Visszaadja a karakter statisztikáit
 void Entity::getStats()
 {
   cout << "Name: " << this->name << endl;
@@ -67,21 +71,25 @@ void Entity::getStats()
   cout << "---------------------------------------------------" << endl;
 }
 
+// Visszaadja a karakter sebzését
 unsigned Entity::getDamage()
 {
   return this->damage;
 }
 
+// Hozzáad egy megadott értéket a karakter sebzéséhez
 void Entity::addDamage(unsigned damage)
 {
   this->damage += damage;
 }
 
+// Visszaadja a karakter szintet
 unsigned Entity::getLevel()
 {
   return this->level;
 }
 
+// Feltételeknek megfelelően lépteti a karakter szintjét
 string Entity::levelUp()
 {
   string history = "";
@@ -100,6 +108,7 @@ void Entity::operator+=(Entity *other)
   this->addDamage((*other).getDamage());
 }
 
+// Két karakter közül eldönti melyik az "erősebb"
 bool Entity::operator<(const Entity &other)
 {
   // A legnagyobb szintű nyer

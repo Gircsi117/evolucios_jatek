@@ -13,6 +13,7 @@
 
 using namespace std;
 
+// Karakter(ek) adatait ezen keresztül kéri le
 void getStats(Board &board)
 {
   string input = "";
@@ -50,6 +51,7 @@ int main(int argc, const char **argv)
   History::clearHistory();
   bool autoRun = false;
 
+  // Tábla létrehozása, karakterek generálása, tábla kirajzolása
   Board board = Board(8, 8);
   board.generateEntities(45);
   board.drawTable();
@@ -78,6 +80,7 @@ int main(int argc, const char **argv)
         getline(cin, input);
       }
 
+      // Megadható műveletek
       if (input == "" || autoRun)
       {
         History::writeHistory("\n" + to_string(board.getRound() + 1) + ". kör!");

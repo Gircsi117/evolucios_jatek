@@ -10,12 +10,14 @@
 
 using namespace std;
 
+// Kiüríti a history.txt tartalmát
 void History::clearHistory()
 {
   std::ofstream file(HISTORY_TXT, std::ofstream::trunc);
   file.close();
 }
 
+// Ír a history.txt-be
 void History::writeHistory(string input)
 {
   ofstream myfile;
